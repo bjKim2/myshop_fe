@@ -3,10 +3,30 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { showToastMessage } from "../common/uiSlice";
 import api from "../../utils/api";
 import { initialCart } from "../cart/cartSlice";
+import Login from "../../page/LoginPage/LoginPage";
+
+// import { useNavigate } from "react-router-dom";
 
 export const loginWithEmail = createAsyncThunk(
   "user/loginWithEmail",
-  async ({ email, password }, { rejectWithValue }) => {}
+  async ({ email, password, navigate  }, { rejectWithValue }) => {
+    // const navigate = useNavigate();
+    try{
+      const response = await api.post("/auth/login", {email,password});
+
+      //성공
+      //Loginpage
+      sessionStorage.setItem("token",response.data.token);
+      console.log("navigate response",response.data);
+      navigate("/");
+      return response.data;
+    }catch(error){
+      //실패
+      //실패시 생긴 에러값을 reducer에 저장
+      console.log("navigate fail",error);
+      return rejectWithValue(error.error);
+    }
+  }
 );
 
 export const loginWithGoogle = createAsyncThunk(
@@ -14,7 +34,11 @@ export const loginWithGoogle = createAsyncThunk(
   async (token, { rejectWithValue }) => {}
 );
 
-export const logout = () => (dispatch) => {};
+export const logout = () => (dispatch) => {
+  sessionStorage.removeItem("token");
+  // window 새로 고침
+  window.location.reload();
+};
 
 // Async Thunk 는 비동기 작업을 수행할 때 사용하는 Redux Toolkit의 기능입니다.
 // api 상태에 따라 자동으로 3가지 상태를 반환해준다.
@@ -82,6 +106,19 @@ const userSlice = createSlice({
     .addCase(registerUser.rejected, (state,action)=>{
       state.registrationError = action.payload; // 에러값을 저장
       
+    })
+    .addCase(loginWithEmail.pending,(state)=>{
+      state.loading = true;
+    })
+    .addCase(loginWithEmail.fulfilled,(state,action)=>{
+      state.loading = false;
+      state.user = action.payload.user;
+      state.loginError = null;
+    })
+    .addCase(loginWithEmail.rejected,(state,action)=>{
+      state.loginError = action.payload;
+      state.loading = false;
+
     })
   },
 });

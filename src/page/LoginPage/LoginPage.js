@@ -20,19 +20,23 @@ const Login = () => {
     if (loginError) {
       dispatch(clearErrors());
     }
+    // if (user) {
+    if (sessionStorage.getItem("token")) {
+      console.log("token", sessionStorage.getItem("token"));
+      navigate("/");
+    }
   }, [navigate]);
+
   const handleLoginWithEmail = (event) => {
     event.preventDefault();
-    dispatch(loginWithEmail({ email, password }));
+    dispatch(loginWithEmail({ email, password,navigate}));
   };
 
   const handleGoogleLogin = async (googleData) => {
     //구글 로그인 하기
   };
 
-  if (user) {
-    navigate("/");
-  }
+
   return (
     <>
       <Container className="login-area">
