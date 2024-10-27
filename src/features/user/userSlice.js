@@ -13,17 +13,14 @@ export const loginWithEmail = createAsyncThunk(
     // const navigate = useNavigate();
     try{
       const response = await api.post("/auth/login", {email,password});
-
       //성공
       //Loginpage
       sessionStorage.setItem("token",response.data.token);
-      console.log("navigate response",response.data);
       navigate("/");
       return response.data;
     }catch(error){
       //실패
       //실패시 생긴 에러값을 reducer에 저장
-      console.log("navigate fail",error);
       return rejectWithValue(error.error);
     }
   }
@@ -31,7 +28,8 @@ export const loginWithEmail = createAsyncThunk(
 
 export const loginWithGoogle = createAsyncThunk(
   "user/loginWithGoogle",
-  async (token, { rejectWithValue }) => {}
+  async (token, { rejectWithValue }) => {
+  }
 );
 
 export const logout = () => (dispatch) => {
@@ -74,7 +72,14 @@ export const registerUser = createAsyncThunk(
 
 export const loginWithToken = createAsyncThunk(
   "user/loginWithToken",
-  async (_, { rejectWithValue }) => {}
+  async (_, { rejectWithValue }) => {
+    try{
+      const response = await api.get("/user/me");
+      return response.data;
+    }catch(error){
+      return rejectWithValue(error.error);
+    }
+  }
 );
 
 const userSlice = createSlice({
@@ -118,8 +123,15 @@ const userSlice = createSlice({
     .addCase(loginWithEmail.rejected,(state,action)=>{
       state.loginError = action.payload;
       state.loading = false;
-
     })
+    .addCase(loginWithToken.pending,(state,action)=>{
+      // state.loading = true; 로딩 스피너를 안보여주는게 좋음. 뒤에서 확인하는 것이라.
+    })
+    .addCase(loginWithToken.fulfilled,(state,action)=>{
+      state.user = action.payload.user;
+    })
+    // .addCase(loginWithToken.rejected,(state,action)=>{
+    // }) 유저가 원하면 다시 로그인하면 되기에 굳이 설정 x
   },
 });
 export const { clearErrors } = userSlice.actions;

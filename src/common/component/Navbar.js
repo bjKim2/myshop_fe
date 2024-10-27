@@ -85,7 +85,7 @@ const Navbar = ({ user }) => {
 
         <div>
           <div className="display-flex">
-            {sessionStorage.getItem('token') ? (
+            {user ? (
               <div onClick={handleLogout} className="nav-icon">
                 <FontAwesomeIcon icon={faUser} />
                 {!isMobile && (
