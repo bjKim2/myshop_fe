@@ -8,6 +8,7 @@ import {
   clearError,
   createProduct,
   editProduct,
+  getProductList
 } from "../../../features/product/productSlice";
 
 const InitialFormData = {
@@ -34,7 +35,11 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   
 
   useEffect(() => {
-    if (success) setShowDialog(false);
+    if (success) {setShowDialog(false)
+      dispatch(getProductList());
+    };
+
+
   }, [success]);
 
   useEffect(() => {
