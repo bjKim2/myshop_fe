@@ -65,7 +65,7 @@ export const registerUser = createAsyncThunk(
         message:"회원가입을 실패했습니다.",status:"error"
       }))
       // 2. 에러값을 저장한다..
-      return rejectWithValue(error.re)
+      return rejectWithValue(error.error)
     }
   }
 );

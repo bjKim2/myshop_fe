@@ -18,7 +18,7 @@ class CloudinaryUploadWidget extends Component {
           console.log("Done! Here is the image info: ", result.info);
           document
             .getElementById("uploadedimage")
-            .setAttribute("src", result.info.secure_url);
+            .setAttribute("src", result.info.secure_url); //  result.info.secure_url은 String 형태로 이미지 URL을 반환합니다.
           this.props.uploadImage(result.info.secure_url);
         }
       } //https://cloudinary.com/documentation/react_image_and_video_upload

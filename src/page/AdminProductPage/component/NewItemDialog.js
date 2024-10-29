@@ -31,6 +31,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   const [stock, setStock] = useState([]);
   const dispatch = useDispatch();
   const [stockError, setStockError] = useState(false);
+  
 
   useEffect(() => {
     if (success) setShowDialog(false);
@@ -64,8 +65,17 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     //재고를 입력했는지 확인, 아니면 에러
+    if(stock.length === 0) return setStockError(true);
     // 재고를 배열에서 객체로 바꿔주기
+    const totalStock  = stock.reduce((total,item) => {
+      return {...total,[item[0]]:parseInt(item[1])}
+    }, {})
+    console.log("totalStock",totalStock);
+    console.log("formData",formData);
     // [['M',2]] 에서 {M:2}로
+
+    // setFormData({ ...formData, stock: Object.fromEntries(stock) });
+
     if (mode === "new") {
       //새 상품 만들기
     } else {
@@ -75,22 +85,38 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
   const handleChange = (event) => {
     //form에 데이터 넣어주기
+    const { id, value} = event.target;
+    setFormData({...formData, [id]: value})
   };
 
   const addStock = () => {
     //재고타입 추가시 배열에 새 배열 추가
+    setStock([...stock, []]);
   };
 
   const deleteStock = (idx) => {
     //재고 삭제하기
+    const newStock =  stock.filter((item,index) => index !== idx);
+    setStock(newStock);
   };
 
   const handleSizeChange = (value, index) => {
     //  재고 사이즈 변환하기
+    // setFormData({...FormData, stock: {...formData.stock, [value]: stock[index][1]}})
+    const newStock = [...stock];
+    newStock[index][0] =  value;
+    setStock(newStock);
   };
-
+  
   const handleStockChange = (value, index) => {
     //재고 수량 변환하기
+    // setStock([...stock.slice(0, index), [stock[index][0], value], ...stock.slice(index + 1)]);
+    
+    const newStock = [...stock];
+    newStock[index][1] = value;
+    setStock(newStock);
+    
+    // setFormData({...FormData, stock : {...formData.stock, [stock[index][0]] : value}})
   };
 
   const onHandleCategory = (event) => {
@@ -112,6 +138,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
   const uploadImage = (url) => {
     //이미지 업로드
+    setFormData({ ...formData, image: url });
   };
 
   return (
@@ -233,10 +260,10 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
           <img
             id="uploadedimage"
-            src={formData.image}
+            src={formData.image} // image 가 없으면 안보임
             className="upload-image mt-2"
             alt="uploadedimage"
-          ></img>
+          />
         </Form.Group>
 
         <Row className="mb-3">
