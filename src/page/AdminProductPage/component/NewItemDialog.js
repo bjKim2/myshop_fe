@@ -70,14 +70,15 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     const totalStock  = stock.reduce((total,item) => {
       return {...total,[item[0]]:parseInt(item[1])}
     }, {})
-    console.log("totalStock",totalStock);
-    console.log("formData",formData);
+    // console.log("totalStock",totalStock);
+    // console.log("formData",formData);
     // [['M',2]] 에서 {M:2}로
 
     // setFormData({ ...formData, stock: Object.fromEntries(stock) });
 
     if (mode === "new") {
       //새 상품 만들기
+      dispatch(createProduct({...formData, stock: totalStock}));
     } else {
       // 상품 수정하기
     }
