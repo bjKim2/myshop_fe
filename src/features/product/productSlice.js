@@ -64,7 +64,7 @@ const productSlice = createSlice({
     builder.addCase(createProduct.pending, (state,action) => {
       state.loading = true;
     } )
-    builder.addCase(createProduct.fullfilled, (state,action) => {
+    builder.addCase(createProduct.fulfilled, (state,action) => {
       state.loading = false;
       state.error = "";
       state.success = true; // 상품 생성을 성공했다? 다이얼로그를 닫고, 실패? 실패메세지를 다이어로그에 보여주고 닫지 않음.
