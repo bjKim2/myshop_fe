@@ -36,13 +36,13 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
 
   useEffect(() => {
     if (success) {setShowDialog(false)
-      dispatch(getProductList());
+      // dispatch(getProductList());
     };
-
-
   }, [success]);
 
   useEffect(() => {
+    console.log("showDialog", showDialog);
+
     if (error || !success) {
       dispatch(clearError());
     }
@@ -88,6 +88,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
       dispatch(createProduct({...formData, size : [],stock: totalStock}));
     } else {
       // 상품 수정하기
+      dispatch(editProduct({...formData,stock: totalStock ,id: selectedProduct._id}));
     }
   };
 
