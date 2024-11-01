@@ -67,7 +67,6 @@ export const updateQty = createAsyncThunk(
     }catch(error){
       if (error.data){
         dispatch(showToastMessage({message:error.error,status:"error"}));
-        dispatch(getCartList());
       }
       return rejectWithValue(error);
     }
@@ -130,7 +129,7 @@ const cartSlice = createSlice({
     .addCase(updateQty.fulfilled, (state,action) => {
       state.loading = false;
       state.error = "";
-      // state.cartList = action.payload;
+      state.cartList = action.payload;
       state.totalPrice = action.payload.reduce((total,item) => total + item.productId.price * item.qty,0);
     })
     .addCase(updateQty.rejected, (state,action) => {
@@ -143,7 +142,7 @@ const cartSlice = createSlice({
     .addCase(deleteCartItem.fulfilled, (state,action) => { 
       state.loading = false;
       state.error = "";
-      // state.cartList = action.payload.data;
+      state.cartList = action.payload.data;
       state.totalPrice = action.payload.reduce((total,item) => total + item.productId.price * item.qty,0);
     })
     .addCase(deleteCartItem.rejected, (state,action) => {
