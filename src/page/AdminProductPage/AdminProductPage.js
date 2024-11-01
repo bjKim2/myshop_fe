@@ -53,11 +53,11 @@ const AdminProductPage = () => {
     const params = new URLSearchParams(searchQuery);
     const query = params.toString();
     navigate("?" + query);
-    console.log("query", query);
   }, [searchQuery]);
 
   const deleteItem = (id) => {
     //아이템 삭제하가ㅣ
+    dispatch(deleteProduct(id));
   };
 
   const openEditForm = (product) => {
@@ -77,7 +77,6 @@ const AdminProductPage = () => {
 
   const handlePageClick = ({ selected }) => {
     //  쿼리에 페이지값 바꿔주기
-    console.log("selected", selected);
     setSearchQuery({ ...searchQuery, page: selected + 1 });
   };
   // searchbox 에서 검색어를 읽어온다 => 엔터를 치면 => searchQuery객체가 업데이트 됨 {name: 스트레이트 팬츠}

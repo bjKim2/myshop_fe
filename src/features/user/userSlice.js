@@ -109,6 +109,7 @@ const userSlice = createSlice({
 
     })
     .addCase(registerUser.rejected, (state,action)=>{
+      state.loading = false;
       state.registrationError = action.payload; // 에러값을 저장
       
     })
@@ -121,17 +122,25 @@ const userSlice = createSlice({
       state.loginError = null;
     })
     .addCase(loginWithEmail.rejected,(state,action)=>{
-      state.loginError = action.payload;
+      
       state.loading = false;
+      state.loginError = action.payload;
     })
     .addCase(loginWithToken.pending,(state,action)=>{
-      // state.loading = true; 로딩 스피너를 안보여주는게 좋음. 뒤에서 확인하는 것이라.
+      // state.loading = true; 
+      // 로딩 스피너를 안보여주는게 좋음. 뒤에서 확인하는 것이라.
     })
     .addCase(loginWithToken.fulfilled,(state,action)=>{
+      state.loading = false;
       state.user = action.payload.user;
     })
-    // .addCase(loginWithToken.rejected,(state,action)=>{
-    // }) 유저가 원하면 다시 로그인하면 되기에 굳이 설정 x
+    .addCase(loginWithToken.rejected,(state,action)=>{
+      state.loading = false;
+      if (action.payload === "Token has expired") {
+        sessionStorage.removeItem("token");
+        window.location.reload();
+      }
+    }) // 유저가 원하면 다시 로그인하면 되기에 굳이 설정 x => 토큰 만료시에만 토큰 삭제하고 새로고침
   },
 });
 export const { clearErrors } = userSlice.actions;

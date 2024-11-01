@@ -5,14 +5,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 import { currencyFormat } from "../../../utils/number";
 import { updateQty, deleteCartItem } from "../../../features/cart/cartSlice";
+import {useState} from "react";
 const CartProductCard = ({ item }) => {
   const dispatch = useDispatch();
+  const [qty, setQty] = useState(item.qty);
 
-  const handleQtyChange = (id, value) => {
-    dispatch(updateQty({ id, value }));
+  const handleQtyChange = (id,value) => {
+    dispatch(updateQty({ id,value }));
   };
 
   const deleteCart = (id) => {
+    if (!window.confirm('이 상품을 삭제하시겠습니까?')) return;
     dispatch(deleteCartItem(id));
   };
 
@@ -25,11 +28,11 @@ const CartProductCard = ({ item }) => {
         <Col md={10} xs={12}>
           <div className="display-flex space-between">
             <h3>{item.productId.name}</h3>
-            <button className="trash-button">
+            <button className="trash-button" onClick={() => deleteCart(item._id)}>
               <FontAwesomeIcon
                 icon={faTrash}
                 width={24}
-                onClick={() => deleteCart(item._id)}
+                
               />
             </button>
           </div>
@@ -46,7 +49,8 @@ const CartProductCard = ({ item }) => {
                 handleQtyChange(item._id, event.target.value)
               }
               required
-              defaultValue={item.qty}
+              // defaultValue={item.qty}
+              value={item.qty}
               className="qty-dropdown"
             >
               <option value={1}>1</option>

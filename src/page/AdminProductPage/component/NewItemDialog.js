@@ -41,7 +41,6 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
   }, [success]);
 
   useEffect(() => {
-    console.log("showDialog", showDialog);
 
     if (error || !success) {
       dispatch(clearError());
@@ -77,8 +76,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     const totalStock  = stock.reduce((total,item) => {
       return {...total,[item[0]]:parseInt(item[1])}
     }, {})
-    // console.log("totalStock",totalStock);
-    // console.log("formData",formData);
+
     // [['M',2]] 에서 {M:2}로
 
     // setFormData({ ...formData, stock: Object.fromEntries(stock) });

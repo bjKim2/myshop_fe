@@ -18,7 +18,7 @@ const LandingPage = () => {
       })
     );
   }, [query]);
-
+  
   return (
     <Container>
       <Row>

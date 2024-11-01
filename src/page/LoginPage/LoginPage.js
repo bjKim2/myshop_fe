@@ -21,11 +21,11 @@ const Login = () => {
       dispatch(clearErrors());
     }
     // if (user) {
-    if (sessionStorage.getItem("token")) {
-      console.log("token", sessionStorage.getItem("token"));
-      navigate("/");
-    }
+      if (sessionStorage.getItem("token")) {
+        navigate("/");
+      }
   }, [navigate]);
+
 
   const handleLoginWithEmail = (event) => {
     event.preventDefault();
