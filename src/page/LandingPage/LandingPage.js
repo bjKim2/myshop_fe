@@ -14,8 +14,6 @@ const LandingPage = () => {
   const name = query.get("name");
   useEffect(() => {
     // 로딩 스피너
-
-
     dispatch(
       getProductList({
         name,
