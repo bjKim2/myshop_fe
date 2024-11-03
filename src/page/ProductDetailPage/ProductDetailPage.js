@@ -42,6 +42,14 @@ const ProductDetail = () => {
 
   if (loading || !selectedProduct)
     return (
+      <div
+      className="empty-bag"
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '200px', // 원하는 높이 조정
+      }}>
       <ColorRing
         visible={true}
         height="80"
@@ -50,7 +58,8 @@ const ProductDetail = () => {
         wrapperStyle={{}}
         wrapperClass="blocks-wrapper"
         colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-      />
+        />
+      </div>
     );
   return (
     <Container className="product-detail-card">

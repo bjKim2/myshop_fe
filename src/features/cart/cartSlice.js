@@ -19,10 +19,14 @@ export const addToCart = createAsyncThunk(
     try{
       const response = await api.post("/cart",{productId:id,size,qty:1});
       if(response.status !== 200) throw new Error(response.error);
+      if (response.data.message){
+        dispatch(showToastMessage({message:"동일 상품이 카트에 있습니다. ",status:"warning"}));
+        return response.data.cartItemQty //TODO
+      }
       dispatch(showToastMessage({message:"상품이 성공적으로 추가되었습니다.",status:"success"}));
       return response.data.cartItemQty //TODO
     }catch(error){
-      dispatch(showToastMessage({message:"카트에 상품 추가 실패 ",status:"error"}));
+      // dispatch(showToastMessage({message:"동일 상품이 카트에 있습니다. ",status:"error"}));
       return rejectWithValue(error.error);
     }
   }
@@ -142,8 +146,8 @@ const cartSlice = createSlice({
     .addCase(deleteCartItem.fulfilled, (state,action) => { 
       state.loading = false;
       state.error = "";
-      state.cartList = action.payload.data;
-      state.totalPrice = action.payload.reduce((total,item) => total + item.productId.price * item.qty,0);
+      // state.cartList = action.payload.data;
+      // state.totalPrice = action.payload.reduce((total,item) => total + item.productId.price * item.qty,0);
     })
     .addCase(deleteCartItem.rejected, (state,action) => {
       state.loading = false;
