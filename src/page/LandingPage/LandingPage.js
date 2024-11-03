@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import ProductCard from "./components/ProductCard";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Spinner  } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductList } from "../../features/product/productSlice";
+
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,9 @@ const LandingPage = () => {
   const [query] = useSearchParams();
   const name = query.get("name");
   useEffect(() => {
+    // 로딩 스피너
+
+
     dispatch(
       getProductList({
         name,
@@ -33,7 +37,9 @@ const LandingPage = () => {
             {name === "" ? (
               <h2>등록된 상품이 없습니다!</h2>
             ) : (
-              <h2>{name}과 일치한 상품이 없습니다!`</h2>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
             )}
           </div>
         )}
