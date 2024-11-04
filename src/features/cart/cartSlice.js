@@ -53,6 +53,7 @@ export const deleteCartItem = createAsyncThunk(
       if(response.status !== 200) throw new Error(response.error);
       dispatch(showToastMessage({message:"상품이 성공적으로 삭제되었습니다.",status:"success"}));
       dispatch(getCartList());
+      dispatch(getCartQty());
       return response.data;
     }catch(error){
       console.log("error : ",error);
