@@ -30,7 +30,6 @@ const PaymentPage = () => {
     zip: "",
   });
   const {cartList, totalPrice} = useSelector((state) => state.cart)
-  console.log("shipInfo", shipInfo);
   useEffect(() => {
     // 오더번호를 받으면 어디로 갈까?
   }, [orderNum]);
@@ -45,7 +44,9 @@ const PaymentPage = () => {
       contact:{firstName, lastName, contact}, 
       orderList : cartList.map((item)=> {return {productId: item.productId._id,price : item.productId.price,size : item.size, qty: item.qty}}), 
       // cardValue, 
+      navigate
     }));
+    // console.log("shipInfo", shipInfo);
     // {shipTo,contact,items}
   };
 

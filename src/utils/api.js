@@ -22,6 +22,7 @@ api.interceptors.request.use(
     return request;
   },
   function (error) {
+
     console.log("REQUEST ERROR", error);
   }
 );
@@ -33,6 +34,10 @@ api.interceptors.response.use(
   function (error) {
     error = error.response.data;
     console.log("RESPONSE ERROR", error);
+    if (error.error === "Token has expired") {
+      sessionStorage.removeItem("token");
+      window.location.href = "/";
+    }
     return Promise.reject(error);
   }
 );
