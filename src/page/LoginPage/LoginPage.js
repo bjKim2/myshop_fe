@@ -7,6 +7,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import "./style/login.style.css";
 import { loginWithEmail, loginWithGoogle } from "../../features/user/userSlice";
 import { clearErrors } from "../../features/user/userSlice";
+
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const Login = () => {
@@ -34,6 +35,7 @@ const Login = () => {
 
   const handleGoogleLogin = async (googleData) => {
     //구글 로그인 하기
+    console.log('hehe',googleData);
   };
 
 
@@ -77,6 +79,12 @@ const Login = () => {
           <div className="text-align-center mt-2">
             <p>-외부 계정으로 로그인하기-</p>
             <div className="display-center">
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
               {/*
                 1. 구글 로그인 버튼 가져오기
                 2. Oauth 로그인을 위해서 google api 사이트에 가입하고 클라이언트키, 시크릿키 받아오기
@@ -85,14 +93,14 @@ const Login = () => {
                   a. 이미 로그인을 한적이 있는 유저 => 로그인 시키고 토큰값 주면됨
                   b. 로그인을 한적이 없는 유저 => 회원가입 시키고 토큰 주면됨
               */}
-              <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+              {/* <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
                 <GoogleLogin
                   onSuccess={handleGoogleLogin}
                   onError={() => {
                     console.log("Login Failed");
                   }}
                 />
-              </GoogleOAuthProvider>
+              </GoogleOAuthProvider> */}
             </div>
           </div>
         </Form>
