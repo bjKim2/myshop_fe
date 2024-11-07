@@ -9,6 +9,7 @@ import { getOrder } from "../../features/order/orderSlice";
 const MyPage = () => {
   const dispatch = useDispatch();
   const { orderList } = useSelector((state) => state.order);
+  
   useEffect(() => {
     dispatch(getOrder());
   }, [dispatch]);
@@ -21,6 +22,7 @@ const MyPage = () => {
     );
   }
   return (
+    
     <Container className="status-card-container">
       {orderList.map((item) => (
         <OrderStatusCard

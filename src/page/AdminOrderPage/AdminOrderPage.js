@@ -36,7 +36,7 @@ const AdminOrderPage = () => {
 
   useEffect(() => {
     dispatch(getOrderList({ ...searchQuery }));
-  }, [query]);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (searchQuery.ordernum === "") {
@@ -63,7 +63,7 @@ const AdminOrderPage = () => {
 
   return (
     <div className="locate-center">
-      <Container>
+      <Container className="overflow-x">
         <div className="mt-2 display-center mb-2">
           <SearchBox
             searchQuery={searchQuery}
@@ -101,7 +101,7 @@ const AdminOrderPage = () => {
         />
       </Container>
 
-      {open && <OrderDetailDialog open={open} handleClose={handleClose} />}
+      {open && <OrderDetailDialog open={open} handleClose={handleClose} searchQuery={searchQuery} />}
     </div>
   );
 };

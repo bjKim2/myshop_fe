@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ORDER_STATUS } from "../../../constants/order.constants";
 import { currencyFormat } from "../../../utils/number";
 import { updateOrder } from "../../../features/order/orderSlice";
-
-const OrderDetailDialog = ({ open, handleClose }) => {
+import {getOrderList} from "../../../features/order/orderSlice";
+const OrderDetailDialog = ({ open, handleClose,searchQuery }) => {
   const selectedOrder = useSelector((state) => state.order.selectedOrder);
   const [orderStatus, setOrderStatus] = useState(selectedOrder.status);
   const dispatch = useDispatch();
@@ -13,8 +13,9 @@ const OrderDetailDialog = ({ open, handleClose }) => {
   const handleStatusChange = (event) => {
     setOrderStatus(event.target.value);
   };
-  const submitStatus = () => {
-    dispatch(updateOrder({ id: selectedOrder._id, status: orderStatus }));
+  const submitStatus = (event) => {
+    event.preventDefault();
+    dispatch(updateOrder({ id: selectedOrder._id, status: orderStatus, searchQuery }));
     handleClose();
   };
 

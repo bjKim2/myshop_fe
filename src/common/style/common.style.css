@@ -31,8 +31,8 @@
 
 .overflow-x{
     overflow-x:auto;
-    width: 100%;
-
+    /* width: 110%; */
+    max-width: 100%; 
 }
 
 .overflow-x::-webkit-scrollbar {
