@@ -15,7 +15,6 @@ export const getUserCoupons = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get("/user/me");
-      console.log(response.data.user.couponList);
       return response.data.user.couponList;
     } catch (error) {
       return rejectWithValue(error.error);

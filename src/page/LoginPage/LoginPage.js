@@ -35,7 +35,6 @@ const Login = () => {
 
   const handleGoogleLogin = async (googleData) => {
     //구글 로그인 하기
-    console.log('hehe',googleData);
     dispatch(loginWithGoogle({token:googleData.credential,navigate}));
 
   };
@@ -95,14 +94,6 @@ const Login = () => {
                   a. 이미 로그인을 한적이 있는 유저 => 로그인 시키고 토큰값 주면됨
                   b. 로그인을 한적이 없는 유저 => 회원가입 시키고 토큰 주면됨
               */}
-              {/* <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-                <GoogleLogin
-                  onSuccess={handleGoogleLogin}
-                  onError={() => {
-                    console.log("Login Failed");
-                  }}
-                />
-              </GoogleOAuthProvider> */}
             </div>
           </div>
         </Form>
