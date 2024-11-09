@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCartQty } from "../cart/cartSlice";
 import api from "../../utils/api";
 import { showToastMessage } from "../common/uiSlice";
-
+import { useCoupon } from "../coupon/couponSlice";
 // Define initial state
 const initialState = {
   orderList: [],
@@ -23,8 +23,10 @@ export const createOrder = createAsyncThunk(
         throw new Error(response.error);
       }
       dispatch(showToastMessage({message: "주문이 완료되었습니다.", status: "success"}));
-
       dispatch(getCartQty());
+      if (payload.couponId) {
+        dispatch(useCoupon(payload.couponId));
+      }
       payload.navigate("/payment/success")
       return response.data.orderNum;
     }catch(error){
@@ -40,9 +42,6 @@ export const getOrder = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try{
       const response = await api.get("/order");
-      if (response.status !== 200) {
-        throw new Error(response.error);
-      }
       return response.data.data;
     }catch(error){
       return rejectWithValue(error.error);
@@ -56,9 +55,7 @@ export const getOrderList = createAsyncThunk(
   async (query, { rejectWithValue, dispatch }) => {
     try{
       const response = await api.get("/order/adminList", {params: query});
-      if (response.status !== 200) {
-        throw new Error(response.error);
-      }
+      console.log("response", response.data)
       return response.data;
     }catch(error){
       return rejectWithValue(error.error);

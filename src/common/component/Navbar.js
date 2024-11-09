@@ -6,6 +6,8 @@ import {
   faBox,
   faSearch,
   faShoppingBag,
+  faUserCircle,
+  faTicketAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -85,6 +87,13 @@ const Navbar = ({ user }) => {
 
         <div>
           <div className="display-flex">
+            {user ? (
+              <div onClick={() => navigate("/coupon")} className="nav-icon">
+                <FontAwesomeIcon icon={faTicketAlt} />
+                {!isMobile && <span style={{ cursor: "pointer" }}>쿠폰함</span>}
+              </div>
+            ): (<div></div>)
+            }
             {user ? (
               <div onClick={handleLogout} className="nav-icon">
                 <FontAwesomeIcon icon={faUser} />

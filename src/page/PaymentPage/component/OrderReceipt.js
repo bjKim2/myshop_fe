@@ -4,9 +4,10 @@ import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { currencyFormat } from "../../../utils/number";
 
-const OrderReceipt = ({cartList, totalPrice}) => {
+const OrderReceipt = ({cartList, totalPrice, coupon}) => {
   const location = useLocation();
   const navigate = useNavigate();
+  
 
   return (
     <div className="receipt-container">
@@ -25,12 +26,49 @@ const OrderReceipt = ({cartList, totalPrice}) => {
       </ul>
       <div className="display-flex space-between receipt-title">
         <div>
-          <strong>Total:</strong>
+          <strong>
+            상품 총액:
+          {coupon ?<div>쿠폰 적용: </div> : <div>쿠폰 적용:</div>}
+          
+          </strong>
         </div>
         <div>
-          <strong>₩ {currencyFormat(totalPrice)}</strong>
+          <strong>
+          ₩ {currencyFormat(totalPrice)}
+          {coupon ? (
+            <div>
+              {coupon.type === "rate" ? `${coupon.discount} %` : `₩ ${currencyFormat(coupon.discount)}`}
+            </div>
+          ) : (
+            <div>0 %</div>
+          )}
+          </strong>
         </div>
       </div>
+      <ul className="receipt-list">
+      </ul>
+      <div className="display-flex space-between receipt-title">
+        <div>
+          <strong>
+            결제 금액:
+          </strong>
+        </div>
+        <div>
+          <strong>
+          {coupon ? (
+            <div>
+              {coupon.type === "rate" ? `₩ ${Math.floor( totalPrice*(-coupon.discount+100)/100)}` : `₩ ${ currencyFormat(Math.max(totalPrice - coupon.discount, 0))}`}
+            </div>
+          ) : (
+            <div>₩ {currencyFormat(totalPrice)}</div>
+          )}
+          </strong>
+        </div>
+      </div>
+
+
+
+      
       {location.pathname.includes("/cart") && cartList.length > 0 && (
         <Button
           variant="dark"

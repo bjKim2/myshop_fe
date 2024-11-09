@@ -31,6 +31,8 @@ const AdminOrderPage = () => {
     "Order Item",
     "Address",
     "Total Price",
+    "Payment Amount",
+    "Discount",
     "Status",
   ];
 

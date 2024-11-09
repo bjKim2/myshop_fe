@@ -25,7 +25,12 @@ const OrderStatusCard = ({ orderItem }) => {
             {orderItem.items[0].productId.name}
             {orderItem.items.length > 1 && `외 ${orderItem.items.length - 1}개`}
           </div>
-          <div>₩ {currencyFormat(orderItem.totalPrice)}</div>
+          <div>상품 총액:₩ {currencyFormat(orderItem.totalPrice)}</div>
+          {orderItem.couponId && orderItem.couponId.type === "rate" && (<div>쿠폰 적용: {currencyFormat(orderItem.couponId.discount)}%</div>) }
+          {orderItem.couponId && orderItem.couponId.type !== "rate" && (<div>쿠폰 적용:₩ {currencyFormat(orderItem.couponId.discount)}</div>) }
+          {orderItem.couponId && <div>결제 금액:₩ {currencyFormat(orderItem.paymentAmount)}</div>}
+          {!orderItem.couponId && <div>쿠폰 미적용</div>}
+          {!orderItem.couponId && <div>결제 금액:₩ {currencyFormat(orderItem.totalPrice)}</div>}
         </Col>
         <Col md={2} className="vertical-middle">
           <div className="text-align-center text-12">주문상태</div>

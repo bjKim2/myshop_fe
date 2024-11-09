@@ -28,7 +28,16 @@ export const loginWithEmail = createAsyncThunk(
 
 export const loginWithGoogle = createAsyncThunk(
   "user/loginWithGoogle",
-  async (token, { rejectWithValue }) => {
+  async ({token,navigate}, { rejectWithValue }) => {
+    try{
+      const response = await api.post("/auth/google",{token});
+      sessionStorage.setItem("token",response.data.token);
+      navigate("/");
+      // console.log("response.data :",response.data);
+      return response.data;
+    }catch(error){
+      return rejectWithValue(error.error);
+    }
   }
 );
 
@@ -141,6 +150,18 @@ const userSlice = createSlice({
         window.location.reload();
       }
     }) // 유저가 원하면 다시 로그인하면 되기에 굳이 설정 x => 토큰 만료시에만 토큰 삭제하고 새로고침
+    .addCase(loginWithGoogle.pending,(state)=>{
+      state.loading = true;
+    })
+    .addCase(loginWithGoogle.fulfilled,(state,action)=>{
+      state.loading = false;
+      state.user = action.payload.user;
+      state.loginError = null;
+    })
+    .addCase(loginWithGoogle.rejected,(state,action)=>{
+      state.loading = false;
+      state.loginError = action.payload;
+    })
   },
 });
 export const { clearErrors } = userSlice.actions;

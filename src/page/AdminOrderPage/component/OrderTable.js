@@ -4,6 +4,7 @@ import { badgeBg } from "../../../constants/order.constants";
 import { currencyFormat } from "../../../utils/number";
 
 const OrderTable = ({ header, data, openEditForm }) => {
+  
   return (
     <div className="overflow-x">
       <Table striped bordered hover>
@@ -34,6 +35,15 @@ const OrderTable = ({ header, data, openEditForm }) => {
                 <th>{item.shipTo.address + " " + item.shipTo.city}</th>
 
                 <th>{currencyFormat(item.totalPrice)}</th>
+                {item.paymentAmount ? <th>{currencyFormat(item.paymentAmount)}</th> : <th>{currencyFormat(item.totalPrice)}</th>}
+                {item.couponId ? (  item.couponId.type !== "rate" ? 
+                ( <th>{currencyFormat(item.couponId.discount)}원</th>) 
+                : (<th>{item.couponId.discount}%</th>)) 
+                : (  <th>쿠폰 미적용</th>)}
+                {/* {item.couponId && item.couponId.type === "rate" && <th>{item.couponId.discount}%</th>} */}
+                {/* {item.couponId && item.couponId.type !== "rate" && <th>{currencyFormat(item.couponId.discount)}원</th>} */}
+
+                {/* {item.couponId ?  "rate" && <th>{currencyFormat(item.couponId.discount)}원</th>} */}
                 <th>
                   <Badge bg={badgeBg[item.status]}>{item.status}</Badge>
                 </th>

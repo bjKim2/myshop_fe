@@ -26,3 +26,23 @@ export const cc_expires_format = (string) => {
       "$1/$2" // To handle 113 > 11/3
     );
 };
+
+export function convertToKoreanTime(isoString) {
+  // ISO 문자열을 Date 객체로 변환
+  const date = new Date(isoString);
+  
+  // 한국 표준시 (KST)로 변환
+  const options = {
+      timeZone: 'Asia/Seoul',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+  };
+  
+  // 한국 시간 문자열로 변환
+  const koreanTime = date.toLocaleString('ko-KR', options);
+  return koreanTime;
+}

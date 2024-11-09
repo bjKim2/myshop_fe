@@ -11,6 +11,7 @@ import ProductAll from "../page/LandingPage/LandingPage";
 import ProductDetail from "../page/ProductDetailPage/ProductDetailPage";
 import RegisterPage from "../page/RegisterPage/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
+import CouponPage from "../page/CouponPage/CouponPage";
 
 const AppRouter = () => {
   return (
@@ -24,6 +25,7 @@ const AppRouter = () => {
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/payment/success" element={<OrderCompletePage />} />
         <Route path="/account/purchase" element={<MyPage />} />
+        <Route path="/coupon" element={<CouponPage />} />
       </Route>
       <Route element={<PrivateRoute permissionLevel="admin" />}>
         <Route path="/admin/product" element={<AdminProduct />} />
