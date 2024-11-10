@@ -33,6 +33,7 @@ export const loginWithGoogle = createAsyncThunk(
       const response = await api.post("/auth/google",{token});
       sessionStorage.setItem("token",response.data.token);
       navigate("/");
+      window.location.reload();
       // console.log("response.data :",response.data);
       return response.data;
     }catch(error){
